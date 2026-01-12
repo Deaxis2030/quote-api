@@ -16,17 +16,21 @@ getQuoteButton.addEventListener("click", () => {
         }
         return response.json();
       })
-      .then(({ quote }) => {
-        if (!quote) {
-          alert("Unexpected response from server");
+      .then((data) => {
+        if (!data.quotes || data.quotes.length === 0) {
+          alert("No quote found with that ID.");
+          getQuoteContainer.innerHTML = "";
           return;
         }
+        const quote = data.quotes[0];
+
+        getQuoteContainer.innerHTML = "";
         const newQuote = document.createElement("div");
         newQuote.className = "single-quote";
         newQuote.innerHTML = `
-        <div class="quote-text">${quote.quote}</div>
-        <div class="attribution">- ${quote.person}</div>
-        <div class="attribution">- Quote ID: ${quote.id}</div>`;
+          <div class="quote-text">${quote.quote}</div>
+          <div class="attribution">- ${quote.person}</div>
+          <div class="attribution">- Quote ID: ${quote.id}</div>`;
         getQuoteContainer.appendChild(newQuote);
       })
       .catch((error) => {
@@ -48,7 +52,7 @@ deleteQuoteButton.addEventListener("click", () => {
         }
         return response.json();
       })
-      .then(({quote}) => {
+      .then(({ quote }) => {
         deleteQuoteContainer.innerHTML = `
         <p>Quote at ID#: ${quote.id} deleted successfully!</p>
         <p>Go to the <a href="index.html">home page</a> to request and view all quotes.</p>`;
