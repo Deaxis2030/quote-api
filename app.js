@@ -80,7 +80,17 @@ app.put('/api/quotes', (req, res, next) => {
 });
 
 app.delete('/api/quotes', (req, res, next) => {
+  const id = Number(req.query.id);
 
+  const quoteIndex = quotes.findIndex(q => q.id === id);
+
+  if (quoteIndex === -1) {
+    return res.status(404).send({ error: 'Quote not found' });
+  }
+
+  const deletedQuote = quotes.splice(quoteIndex, 1)[0];
+
+  res.send({ quote: deletedQuote });
 });
 
 
