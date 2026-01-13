@@ -4,7 +4,8 @@ const quotes = require("./data").quotes;
 const quotesRouter = express.Router();
 
 quotesRouter.get("/random", (req, res, next) => {
-  res.send({ quote: getRandomElement(quotes) });
+  const randomQuote = getRandomElement(quotes);
+  res.send({ quotes: [randomQuote] });
 });
 
 quotesRouter.get("/", (req, res, next) => {
